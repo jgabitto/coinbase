@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { StoreState } from "../reducers";
 
-import { CryptoInfo, fetchCryptoInfo } from "../actions";
+import { StoreState } from "../state/reducers";
+import { fetchCryptoInfo } from "../state/action-creators";
+import { CryptoInfo } from "../state/actions";
 import Navbar from "./Navbar";
 import CryptoTable from "./Table";
 import TableTabs from "./TableTabs";
@@ -12,10 +13,7 @@ interface AppProps {
   fetchCryptoInfo: Function;
 }
 
-const _App: React.FC<AppProps> = ({
-  fetchCryptoInfo,
-  cryptoInfo,
-}): JSX.Element => {
+const _App: React.FC<AppProps> = ({ fetchCryptoInfo, cryptoInfo }) => {
   const onButtonClick = (): void => {
     fetchCryptoInfo();
   };

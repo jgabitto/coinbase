@@ -1,29 +1,11 @@
 import { Dispatch } from "redux";
 import axios from "axios";
 
-import { ActionTypes } from "./types";
+import { ActionType } from "../action-types";
+import { FetchCryptoInfoAction, CryptoInfo } from "../actions/index";
 
 const url =
   "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
-
-export interface CryptoInfo {
-  id: number;
-  name: string;
-  symbol: string;
-  slug: string;
-  max_supply: number;
-  circulating_supply: number;
-  total_supply: number;
-  platform: object | null;
-  quote: {
-    [currency: string]: object;
-  };
-}
-
-export interface FetchCryptoInfoAction {
-  type: ActionTypes.fetchCryptoInfo;
-  payload: CryptoInfo[];
-}
 
 export const fetchCryptoInfo = () => {
   return async (dispatch: Dispatch) => {
@@ -35,7 +17,7 @@ export const fetchCryptoInfo = () => {
     const response = await axios.get<CryptoInfo[]>(url, config);
 
     dispatch<FetchCryptoInfoAction>({
-      type: ActionTypes.fetchCryptoInfo,
+      type: ActionType.FETCH_CRYPTO_INFO,
       payload: response.data,
     });
   };
