@@ -8,12 +8,13 @@ import NavItem from "./NavItem";
 import { PageItem } from "../../types/types";
 
 interface Props {
+  onSidebarOpen: () => void;
   pages: {
     learn: Array<PageItem>;
   };
 }
 
-const Navbar = ({ pages }: Props): JSX.Element => {
+const Navbar = ({ onSidebarOpen, pages }: Props): JSX.Element => {
   const theme = useTheme();
 
   const { learn: learnPages } = pages;
@@ -77,7 +78,7 @@ const Navbar = ({ pages }: Props): JSX.Element => {
       </Box>
       <Box sx={{ display: { xs: "flex", md: "none" } }} alignItems={"center"}>
         <Button
-          onClick={() => console.log("hello")}
+          onClick={() => onSidebarOpen()}
           aria-label="Menu"
           variant={"outlined"}
           sx={{
