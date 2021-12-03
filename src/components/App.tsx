@@ -1,12 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import "aos/dist/aos.css";
 
 import { StoreState } from "../state/reducers";
 import { fetchCryptoInfo } from "../state/action-creators";
 import { CryptoInfo } from "../state/actions";
-import Navbar from "./Navbar";
-import CryptoTable from "./Table";
-import TableTabs from "./TableTabs";
 
 interface AppProps {
   cryptoInfo: CryptoInfo[];
@@ -24,13 +23,7 @@ const _App: React.FC<AppProps> = ({ fetchCryptoInfo, cryptoInfo }) => {
     });
   };
 
-  return (
-    <div>
-      <button onClick={onButtonClick}>Fetch</button>
-      <Navbar />
-      {renderList()}
-    </div>
-  );
+  return <BrowserRouter></BrowserRouter>;
 };
 
 const mapStateToProps = ({
