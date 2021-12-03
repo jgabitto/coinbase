@@ -6,6 +6,8 @@ import "aos/dist/aos.css";
 import { StoreState } from "../state/reducers";
 import { fetchCryptoInfo } from "../state/action-creators";
 import { CryptoInfo } from "../state/actions";
+import Page from "./common/Page";
+import Routes from "./Routes/Routes";
 
 interface AppProps {
   cryptoInfo: CryptoInfo[];
@@ -23,7 +25,13 @@ const _App: React.FC<AppProps> = ({ fetchCryptoInfo, cryptoInfo }) => {
     });
   };
 
-  return <BrowserRouter></BrowserRouter>;
+  return (
+    <Page>
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+    </Page>
+  );
 };
 
 const mapStateToProps = ({
