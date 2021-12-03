@@ -9,6 +9,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Container from "./Container";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
+import Footer from "./Footer/Footer";
 import pages from "./Navbar/pages";
 
 interface Props {
@@ -62,6 +63,9 @@ const Main = ({ children, bgcolor = "transparent" }: Props): JSX.Element => {
         {children}
         <Divider />
       </main>
+      <Container paddingY={4}>
+        <Footer />
+      </Container>
     </Box>
   );
 };
