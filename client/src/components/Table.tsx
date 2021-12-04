@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -13,70 +13,64 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
 import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
-import { Pagination } from "@mui/material";
 
 import Container from "./common/Container";
+import { CryptoInfo } from "../state/actions";
 
-interface Data {
-  num: number;
-  name: string;
-  oneHPercentage: number;
-  twentyfourHPercentage: number;
-  sevenDPercentage: number;
-  twentyfourHVolume: number;
-  marketCap: number;
-  circulatingSupply: number;
-  lastSevenDays: number;
-}
+// interface Data {
+//   num?: number;
+//   name?: string;
+//   oneHPercentage?: number;
+//   twentyfourHPercentage?: number;
+//   sevenDPercentage?: number;
+//   twentyfourHVolume?: number;
+//   marketCap?: number;
+//   circulatingSupply?: number;
+// }
 
-function createData(
-  num: number,
-  name: string,
-  oneHPercentage: number,
-  twentyfourHPercentage: number,
-  sevenDPercentage: number,
-  twentyfourHVolume: number,
-  marketCap: number,
-  circulatingSupply: number,
-  lastSevenDays: number
-): Data {
-  return {
-    num,
-    name,
-    oneHPercentage,
-    twentyfourHPercentage,
-    sevenDPercentage,
-    twentyfourHVolume,
-    marketCap,
-    circulatingSupply,
-    lastSevenDays,
-  };
-}
+// function createData(
+//   num?: number,
+//   name?: string,
+//   oneHPercentage?: number,
+//   twentyfourHPercentage?: number,
+//   sevenDPercentage?: number,
+//   twentyfourHVolume?: number,
+//   marketCap?: number,
+//   circulatingSupply?: number
+// ): Data {
+//   return {
+//     num,
+//     name,
+//     oneHPercentage,
+//     twentyfourHPercentage,
+//     sevenDPercentage,
+//     twentyfourHVolume,
+//     marketCap,
+//     circulatingSupply,
+//   };
+// }
 
-const rows = [
-  createData(1, "Cupcake", 305, 3.7, 67, 1, 1, 2, 1),
-  createData(2, "Donut", 452, 25.0, 51, 2, 1, 2, 1),
-  createData(3, "Eclair", 262, 16.0, 24, 3, 1, 2, 1),
-  createData(4, "Frozen yoghurt", 159, 6.0, 24, 4, 1, 2, 1),
-  createData(5, "Gingerbread", 356, 16.0, 49, 5, 1, 2, 1),
-  createData(6, "Honeycomb", 408, 3.2, 87, 5, 1, 2, 1),
-  createData(7, "Ice cream sandwich", 237, 9.0, 37, 5, 1, 2, 1),
-  createData(8, "Jelly Bean", 375, 0.0, 94, 5, 1, 2, 1),
-  createData(9, "KitKat", 518, 26.0, 65, 5, 1, 2, 1),
-  createData(10, "Lollipop", 392, 0.2, 98, 5, 1, 2, 1),
-  createData(11, "Marshmallow", 318, 0, 81, 5, 1, 2, 1),
-  createData(12, "Nougat", 360, 19.0, 9, 5, 1, 2, 1),
-  createData(13, "Oreo", 437, 18.0, 63, 5, 1, 2, 1),
-];
+// const rows = [
+//   createData(1, "Cupcake", 305, 3.7, 67, 1, 1, 2, 1),
+//   createData(2, "Donut", 452, 25.0, 51, 2, 1, 2, 1),
+//   createData(3, "Eclair", 262, 16.0, 24, 3, 1, 2, 1),
+//   createData(4, "Frozen yoghurt", 159, 6.0, 24, 4, 1, 2, 1),
+//   createData(5, "Gingerbread", 356, 16.0, 49, 5, 1, 2, 1),
+//   createData(6, "Honeycomb", 408, 3.2, 87, 5, 1, 2, 1),
+//   createData(7, "Ice cream sandwich", 237, 9.0, 37, 5, 1, 2, 1),
+//   createData(8, "Jelly Bean", 375, 0.0, 94, 5, 1, 2, 1),
+//   createData(9, "KitKat", 518, 26.0, 65, 5, 1, 2, 1),
+//   createData(10, "Lollipop", 392, 0.2, 98, 5, 1, 2, 1),
+//   createData(11, "Marshmallow", 318, 0, 81, 5, 1, 2, 1),
+//   createData(12, "Nougat", 360, 19.0, 9, 5, 1, 2, 1),
+//   createData(13, "Oreo", 437, 18.0, 63, 5, 1, 2, 1),
+// ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -104,10 +98,7 @@ function getComparator<Key extends keyof any>(
 
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
-function stableSort<T>(
-  array: readonly T[],
-  comparator: (a: T, b: T) => number
-) {
+function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -121,65 +112,59 @@ function stableSort<T>(
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof Data;
+  id: keyof CryptoInfo;
   label: string;
   numeric: boolean;
 }
 
 const headCells: readonly HeadCell[] = [
   {
-    id: "num",
-    numeric: false,
+    id: "market_cap_rank",
+    numeric: true,
     disablePadding: true,
     label: "#",
   },
   {
     id: "name",
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: "Name",
   },
   {
-    id: "oneHPercentage",
+    id: "price_change_percentage_1h_in_currency",
     numeric: true,
     disablePadding: false,
     label: "1h %",
   },
   {
-    id: "twentyfourHPercentage",
-    numeric: true,
+    id: "price_change_percentage_24h",
+    numeric: false,
     disablePadding: false,
     label: "24h %",
   },
   {
-    id: "sevenDPercentage",
+    id: "price_change_percentage_7d_in_currency",
     numeric: true,
     disablePadding: false,
     label: "7d %",
   },
   {
-    id: "twentyfourHVolume",
-    numeric: true,
+    id: "total_volume",
+    numeric: false,
     disablePadding: false,
     label: "Volume (24h)",
   },
   {
-    id: "marketCap",
-    numeric: true,
+    id: "market_cap",
+    numeric: false,
     disablePadding: false,
     label: "Market Cap",
   },
   {
-    id: "circulatingSupply",
-    numeric: true,
+    id: "circulating_supply",
+    numeric: false,
     disablePadding: false,
     label: "Circulating Supply",
-  },
-  {
-    id: "lastSevenDays",
-    numeric: true,
-    disablePadding: false,
-    label: "Last 7 Days",
   },
 ];
 
@@ -187,9 +172,9 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof Data
+    property: keyof CryptoInfo
   ) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  // onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
   rowCount: number;
@@ -197,7 +182,7 @@ interface EnhancedTableProps {
 
 function EnhancedTableHead(props: EnhancedTableProps) {
   const {
-    onSelectAllClick,
+    // onSelectAllClick,
     order,
     orderBy,
     numSelected,
@@ -205,7 +190,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     onRequestSort,
   } = props;
   const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof CryptoInfo) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
@@ -216,7 +201,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align={headCell.numeric ? "center" : "right"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -296,31 +281,36 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-export default function EnhancedTable() {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof Data>("num");
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+interface TableProps {
+  data: any;
+}
+
+const EnhancedTable: React.FC<TableProps> = ({ data }): JSX.Element => {
+  const [order, setOrder] = useState<Order>("asc");
+  const [orderBy, setOrderBy] = useState<keyof CryptoInfo>("market_cap_rank");
+  const [selected, setSelected] = useState<readonly string[]>([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
+  // const [rows, setRows] = useState<CryptoInfo[]>(data);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Data
+    property: keyof CryptoInfo
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
+  // const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.checked) {
+  //     const newSelecteds = rows.map((n: any) => n.name);
+  //     setSelected(newSelecteds);
+  //     return;
+  //   }
+  //   setSelected([]);
+  // };
 
   const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
     const selectedIndex = selected.indexOf(name);
@@ -338,6 +328,9 @@ export default function EnhancedTable() {
         selected.slice(selectedIndex + 1)
       );
     }
+
+    console.log(name);
+    console.log(selected);
 
     setSelected(newSelected);
   };
@@ -361,13 +354,15 @@ export default function EnhancedTable() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 && data?.length
+      ? Math.max(0, (1 + page) * rowsPerPage - data.length)
+      : 0;
 
   return (
     <Container>
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
-          <EnhancedTableToolbar numSelected={selected.length} />
+          {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
           <TableContainer>
             <Table
               sx={{ minWidth: 750 }}
@@ -378,23 +373,49 @@ export default function EnhancedTable() {
                 numSelected={selected.length}
                 order={order}
                 orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
+                // onSelectAllClick={handleSelectAllClick}
                 onRequestSort={handleRequestSort}
-                rowCount={rows.length}
+                rowCount={data?.length}
               />
               <TableBody>
                 {/* if you don't need to support IE11, you can replace the `stableSort` call with:
               rows.slice().sort(getComparator(order, orderBy)) */}
-                {stableSort(rows, getComparator(order, orderBy))
+                {stableSort(data, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
-                    const isItemSelected = isSelected(row.name);
+                    const name = typeof row.name === "string" ? row.name : "";
+                    const oneH =
+                      typeof row.price_change_percentage_1h_in_currency ===
+                      "number"
+                        ? row.price_change_percentage_1h_in_currency
+                        : 0;
+                    const twentyFourH =
+                      typeof row.price_change_percentage_24h === "number"
+                        ? row.price_change_percentage_24h
+                        : 0;
+                    const sevenD =
+                      typeof row.price_change_percentage_7d_in_currency ===
+                      "number"
+                        ? row.price_change_percentage_7d_in_currency
+                        : 0;
+                    const volume =
+                      typeof row.total_volume === "number"
+                        ? row.total_volume
+                        : 0;
+                    const marketCap =
+                      typeof row.market_cap === "number" ? row.market_cap : 0;
+                    const supply =
+                      typeof row.circulating_supply === "number"
+                        ? row.circulating_supply
+                        : 0;
+
+                    const isItemSelected = isSelected(name);
                     const labelId = `enhanced-table-checkbox-${index}`;
 
                     return (
                       <TableRow
                         hover
-                        onClick={(event) => handleClick(event, row.name)}
+                        onClick={(event) => handleClick(event, name)}
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
@@ -418,26 +439,55 @@ export default function EnhancedTable() {
                           scope="row"
                           padding="none"
                         >
-                          {row.num}
-                        </TableCell>
-                        <TableCell align="right">{row.name}</TableCell>
-                        <TableCell align="right">
-                          {row.oneHPercentage}
+                          {row.market_cap_rank}
                         </TableCell>
                         <TableCell align="right">
-                          {row.twentyfourHPercentage}
+                          <img
+                            height="20rem"
+                            width="20rem"
+                            alt="coin img"
+                            src={`${row.image}`}
+                          />{" "}
+                          {row.name}
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={
+                            oneH < 0 ? { color: "red" } : { color: "green" }
+                          }
+                        >
+                          {oneH > 0 && "+"}
+                          {oneH.toFixed(2)}
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={
+                            twentyFourH < 0
+                              ? { color: "red" }
+                              : { color: "green" }
+                          }
+                        >
+                          {twentyFourH > 0 && "+"}
+                          {twentyFourH.toFixed(2)}
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={
+                            sevenD < 0 ? { color: "red" } : { color: "green" }
+                          }
+                        >
+                          {sevenD > 0 && "+"}
+                          {sevenD.toFixed(2)}
                         </TableCell>
                         <TableCell align="right">
-                          {row.sevenDPercentage}
+                          ${volume.toLocaleString()}
                         </TableCell>
                         <TableCell align="right">
-                          {row.twentyfourHVolume}
+                          ${marketCap.toLocaleString()}
                         </TableCell>
-                        <TableCell align="right">{row.marketCap}</TableCell>
                         <TableCell align="right">
-                          {row.circulatingSupply}
+                          {supply.toLocaleString()}
                         </TableCell>
-                        <TableCell align="right">{row.lastSevenDays}</TableCell>
                       </TableRow>
                     );
                   })}
@@ -455,7 +505,7 @@ export default function EnhancedTable() {
           </TableContainer>
           <TablePagination
             component="div"
-            count={rows.length}
+            count={data.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -469,4 +519,6 @@ export default function EnhancedTable() {
       </Box>
     </Container>
   );
-}
+};
+
+export default EnhancedTable;

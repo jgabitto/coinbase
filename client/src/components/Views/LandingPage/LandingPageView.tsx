@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Main from "../../common/Main";
 import { StoreState } from "../../../state/reducers";
 import Jumbotron from "./Jumbotron";
-import Table from "../../Table";
+import EnhancedTable from "../../Table";
 import { fetchCryptoInfo } from "../../../state/action-creators";
 import { CryptoInfo } from "../../../state/actions";
 
@@ -28,7 +28,7 @@ const LandingPageView: React.FC<TableProps> = ({
     <Box sx={{ overflowX: "hidden" }}>
       <Main bgcolor={"background.paper"}>
         <Jumbotron />
-        <Table />
+        <EnhancedTable data={cryptoInfo} />
       </Main>
     </Box>
   );
