@@ -15,9 +15,7 @@ export const fetchCryptoInfo = () => {
     //   },
     // };
     // const response = await axios.get<CryptoInfo[]>(url, config);
-    const response = await axios.get<CryptoInfo[]>(
-      "http://localhost:8000/prices"
-    );
+    const response = await axios.get<CryptoInfo[]>("/prices");
 
     dispatch<FetchCryptoInfoAction>({
       type: ActionType.FETCH_CRYPTO_INFO,
