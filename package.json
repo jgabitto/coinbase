@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "cd client && npm install && npm run build",
-    "start": "cd server/src && node index.ts"
+    "start:build": "tsc -w",
+    "start:run": "env-cmd -f ./config/dev.env nodemon build/index.js",
+    "start": "cd server && concurrently npm:start:*"
   },
   "repository": {
     "type": "git",
