@@ -179,7 +179,7 @@ const headCells: readonly HeadCell[] = [
     id: "lastSevenDays",
     numeric: true,
     disablePadding: false,
-    label: "Last 7 Days",
+    label: "Last 7 Day",
   },
 ];
 
