@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "cd client && npm install && npm run build",
     "start:build": "tsc -w",
     "start:run": "env-cmd -f ./config/dev.env nodemon build/index.js",
     "start": "concurrently npm:start:*"
