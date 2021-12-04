@@ -20,8 +20,9 @@ const LandingPageView: React.FC<TableProps> = ({
 }): JSX.Element => {
   useEffect(() => {
     fetchCryptoInfo();
-    console.log(cryptoInfo);
   }, []);
+
+  console.log(cryptoInfo);
 
   return (
     <Box sx={{ overflowX: "hidden" }}>
