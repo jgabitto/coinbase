@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { useTheme } from "@mui/material/styles";
 
 import NavItem from "../Navbar/NavItem";
-import { PageItem } from "../../types/types";
+import { PageItem } from "../../interfaces/interfaces";
 
 interface Props {
   pages: {
