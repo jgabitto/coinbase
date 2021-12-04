@@ -1,0 +1,20 @@
+{
+  "name": "coinbase",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd client && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jgabitto/coinbase.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jgabitto/coinbase/issues"
+  },
+  "homepage": "https://github.com/jgabitto/coinbase#readme"
+}
