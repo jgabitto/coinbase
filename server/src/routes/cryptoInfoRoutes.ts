@@ -19,11 +19,14 @@ export interface CryptoInfo {
 
 // GET get crypto information
 router.get("/prices", async (req: Request, res: Response) => {
-  const response = await axios.get<CryptoInfo[]>(
-    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d%2C14d%2C30d%2C1y"
-  );
-
-  res.status(200).send(response);
+  try {
+    const response = await axios.get<CryptoInfo[]>(
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d%2C14d%2C30d%2C1y"
+    );
+    res.status(200).send(response.data);
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 export { router };
