@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -180,15 +181,13 @@ interface EnhancedTableProps {
   rowCount: number;
 }
 
-function EnhancedTableHead(props: EnhancedTableProps) {
-  const {
-    // onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
+function EnhancedTableHead({
+  order,
+  orderBy,
+  numSelected,
+  rowCount,
+  onRequestSort,
+}: /* onSelectAllClick*/ EnhancedTableProps) {
   const createSortHandler =
     (property: keyof CryptoInfo) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
@@ -285,14 +284,24 @@ interface TableProps {
   data: any;
 }
 
+const useStyles = makeStyles({
+  tr: {
+    ".MuiTableRow-hover": {
+      cursor: "pointer",
+    },
+  },
+});
+
 const EnhancedTable: React.FC<TableProps> = ({ data }): JSX.Element => {
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof CryptoInfo>("market_cap_rank");
-  const [selected, setSelected] = useState<readonly string[]>([]);
+  const [selected, setSelected] = useState<string>("");
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   // const [rows, setRows] = useState<CryptoInfo[]>(data);
+
+  const classes = useStyles();
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -313,26 +322,27 @@ const EnhancedTable: React.FC<TableProps> = ({ data }): JSX.Element => {
   // };
 
   const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+    // const selectedIndex = selected.indexOf(name);
     const selectedIndex = selected.indexOf(name);
     let newSelected: readonly string[] = [];
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
+    // if (selectedIndex === -1) {
+    //   newSelected = newSelected.concat(selected, name);
+    // } else if (selectedIndex === 0) {
+    //   newSelected = newSelected.concat(selected.slice(1));
+    // } else if (selectedIndex === selected.length - 1) {
+    //   newSelected = newSelected.concat(selected.slice(0, -1));
+    // } else if (selectedIndex > 0) {
+    //   newSelected = newSelected.concat(
+    //     selected.slice(0, selectedIndex),
+    //     selected.slice(selectedIndex + 1)
+    //   );
+    // }
 
     console.log(name);
     console.log(selected);
 
-    setSelected(newSelected);
+    setSelected(name);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -420,12 +430,10 @@ const EnhancedTable: React.FC<TableProps> = ({ data }): JSX.Element => {
                         aria-checked={isItemSelected}
                         tabIndex={-1}
                         key={row.name}
-                        selected={isItemSelected}
                       >
                         <TableCell padding="checkbox">
                           <Checkbox
                             color="warning"
-                            checked={isItemSelected}
                             inputProps={{
                               "aria-labelledby": labelId,
                             }}
