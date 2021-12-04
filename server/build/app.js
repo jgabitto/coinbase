@@ -20,9 +20,9 @@ app.use((0, cors_1.default)({ origin: true }));
 // Load router module in express app (Pass middleware userRouter to app)
 app.use(cryptoInfoRoutes_1.router);
 if (process.env.NODE_ENV === "production") {
-    app.use(express_1.default.static(path_1.default.resolve(__dirname, "../client/build")));
+    app.use(express_1.default.static(path_1.default.resolve(__dirname, "../../client/build")));
     app.get("*", (req, res) => {
-        res.sendFile(path_1.default.resolve(__dirname, "../../client/build", "index.html"));
+        res.sendFile(path_1.default.resolve(__dirname, "../client/build", "index.html"));
     });
 }
 exports.default = app;
