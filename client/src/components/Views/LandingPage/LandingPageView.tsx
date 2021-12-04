@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import { connect } from "react-redux";
+import Grid from "@mui/material/Grid";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import Main from "../../common/Main";
 import { StoreState } from "../../../state/reducers";
@@ -20,7 +22,7 @@ const LandingPageView: React.FC<TableProps> = ({
 }): JSX.Element => {
   useEffect(() => {
     fetchCryptoInfo();
-  }, []);
+  }, [fetchCryptoInfo]);
 
   console.log(cryptoInfo);
 
@@ -28,7 +30,22 @@ const LandingPageView: React.FC<TableProps> = ({
     <Box sx={{ overflowX: "hidden" }}>
       <Main bgcolor={"background.paper"}>
         <Jumbotron />
-        <EnhancedTable data={cryptoInfo} />
+        {cryptoInfo.length === 0 ? (
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            style={{ minHeight: "100vh" }}
+          >
+            <Grid item xs={3}>
+              <CircularProgress />
+            </Grid>
+          </Grid>
+        ) : (
+          <EnhancedTable data={cryptoInfo} />
+        )}
       </Main>
     </Box>
   );
