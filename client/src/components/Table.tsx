@@ -133,7 +133,7 @@ const headCells: readonly HeadCell[] = [
   },
   {
     id: "price_change_percentage_1h_in_currency",
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: "1h %",
   },
@@ -145,7 +145,7 @@ const headCells: readonly HeadCell[] = [
   },
   {
     id: "price_change_percentage_7d_in_currency",
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: "7d %",
   },
@@ -418,6 +418,10 @@ const EnhancedTable: React.FC<TableProps> = ({ data }): JSX.Element => {
                       typeof row.circulating_supply === "number"
                         ? row.circulating_supply
                         : 0;
+                    const symbol =
+                      typeof row.symbol === "string"
+                        ? row.symbol.toUpperCase()
+                        : row.symbol;
 
                     const isItemSelected = isSelected(name);
                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -457,6 +461,8 @@ const EnhancedTable: React.FC<TableProps> = ({ data }): JSX.Element => {
                             src={`${row.image}`}
                           />{" "}
                           {row.name}
+                          {"\t"}
+                          <span style={{ color: "grey" }}>{symbol}</span>
                         </TableCell>
                         <TableCell
                           align="right"
