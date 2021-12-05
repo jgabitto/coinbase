@@ -104,7 +104,7 @@ const Jumbotron = (): JSX.Element => {
                   </Typography>
                   <Typography variant="h5" component="div"></Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.primary">
-                    29822.29$
+                    48,731.50 USD
                   </Typography>
                 </CardContent>
               </Card>
@@ -126,7 +126,7 @@ const Jumbotron = (): JSX.Element => {
                   </Typography>
                   <Typography variant="h5" component="div"></Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.primary">
-                    29822.29$
+                    4,120.99 USD
                   </Typography>
                 </CardContent>
               </Card>
@@ -148,7 +148,7 @@ const Jumbotron = (): JSX.Element => {
                   </Typography>
                   <Typography variant="h5" component="div"></Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.primary">
-                    29822.29$
+                    0.17 USD
                   </Typography>
                 </CardContent>
               </Card>
