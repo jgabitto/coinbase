@@ -13,6 +13,7 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
+         <li><a href="#architecture">Architecture</a></li>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
@@ -57,7 +58,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-List of things you need to run RideShare locally
+List of things you need to run Cryptoinfoweb locally
 
 - npm
 ```sh
@@ -67,11 +68,31 @@ List of things you need to run RideShare locally
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-2. Install NPM packages
+   git clone https://github.com/jgabitto/coinbase.git
+   
+ 2. CD Client
+   ```sh
+   cd client
+   
+   3. Install NPM packages for client
    ```sh
    npm install
+   ```
+      4. Run client server
+   ```sh
+   npm start
+   ```
+ 4. CD to Server
+   ```sh
+   cd ../server
+   
+   5. Install NPM packages for server
+   ```sh
+   npm install
+   ```
+         6. Run server server
+   ```sh
+   npm start
    ```
 <!-- LICENSE -->
 
