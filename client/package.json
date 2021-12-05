@@ -8,6 +8,7 @@
     "@emotion/styled": "^11.6.0",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.60",
     "@mui/icons-material": "^5.2.0",
     "@mui/material": "^5.2.1",
     "@mui/styled-engine-sc": "^5.1.0",
@@ -29,11 +30,13 @@
     "@visx/tooltip": "^2.2.2",
     "aos": "^2.3.4",
     "axios": "^0.24.0",
+    "axios-hooks": "^3.0.0",
     "d3-array": "^3.1.1",
     "date-fns": "^2.27.0",
     "numeral": "^2.0.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-draggable": "^4.4.4",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
@@ -69,6 +72,8 @@
     ]
   },
   "devDependencies": {
-    "@types/aos": "^3.0.4"
+    "@types/aos": "^3.0.4",
+    "@types/d3-array": "^3.0.2",
+    "@types/numeral": "^2.0.2"
   }
 }

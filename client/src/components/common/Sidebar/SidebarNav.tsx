@@ -1,7 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { useTheme } from "@mui/material/styles";
 
 import NavItem from "../Navbar/NavItem";
 import { PageItem } from "../../interfaces/interfaces";
@@ -13,8 +12,6 @@ interface Props {
 }
 
 const SidebarNav = ({ pages }: Props): JSX.Element => {
-  const theme = useTheme();
-
   const { learn: learnPages } = pages;
 
   return (

@@ -15,12 +15,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 const express_1 = require("express");
 const axios_1 = __importDefault(require("axios"));
+const routes_1 = require("./routes");
 const router = (0, express_1.Router)();
 exports.router = router;
-// GET get crypto information
-router.get("/prices", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// GET get prices data information
+router.get("/get-prices-data", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield axios_1.default.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d%2C14d%2C30d%2C1y");
+        const response = yield axios_1.default.get(routes_1.GET_PRICES_DATA_URL);
+        res.status(200).send(response.data);
+    }
+    catch (e) {
+        console.log(e);
+    }
+}));
+// POST get line chart information
+router.post("/get-line-chart-data", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const url = (0, routes_1.getLineChartDataUrl)(req.body.data.id);
+        const response = yield axios_1.default.get(url);
         res.status(200).send(response.data);
     }
     catch (e) {

@@ -1,6 +1,8 @@
 import { Request, Response, Router } from "express";
 import axios from "axios";
 
+import { GET_PRICES_DATA_URL, getLineChartDataUrl } from "./routes";
+
 const router = Router();
 
 export interface CryptoInfo {
@@ -17,12 +19,21 @@ export interface CryptoInfo {
   };
 }
 
-// GET get crypto information
-router.get("/prices", async (req: Request, res: Response) => {
+// GET get prices data information
+router.get("/get-prices-data", async (req: Request, res: Response) => {
   try {
-    const response = await axios.get<CryptoInfo[]>(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d%2C14d%2C30d%2C1y"
-    );
+    const response = await axios.get<CryptoInfo[]>(GET_PRICES_DATA_URL);
+    res.status(200).send(response.data);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+// POST get line chart information
+router.post("/get-line-chart-data", async (req: Request, res: Response) => {
+  try {
+    const url = getLineChartDataUrl(req.body.data.id);
+    const response = await axios.get<CryptoInfo[]>(url);
     res.status(200).send(response.data);
   } catch (e) {
     console.log(e);

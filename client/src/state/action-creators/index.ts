@@ -2,31 +2,35 @@ import { Dispatch } from "redux";
 import axios from "axios";
 
 import { ActionType } from "../action-types";
-import { FetchCryptoInfoAction, CryptoInfo } from "../actions/index";
+import {
+  FetchLineChartDataAction,
+  FetchPricesDataAction,
+  PricesData,
+  LineChartData,
+} from "../actions/index";
 
-const url = "/prices";
+const PRICE_DATA_URL = "/get-prices-data";
+const LINE_CHART_DATA = "/get-line-chart-data";
 
-export const fetchCryptoInfo = () => {
+export const fetchPricesData = () => {
   return async (dispatch: Dispatch) => {
-    const response = await axios.get<CryptoInfo[]>(url);
+    const response = await axios.get<PricesData[]>(PRICE_DATA_URL);
 
-    // const processedData = response.data.map((curr) => {
-    //   return [
-    //     {
-    //       num: curr.market_cap_rank,
-    //       name: curr.name,
-    //       oneHPercentage: curr.price_change_percentage_1h_in_currency,
-    //       twentyfourHPercentage: curr.price_change_percentage_24h,
-    //       sevenDPercentage: curr.price_change_percentage_7d_in_currency,
-    //       twentyfourHVolume: curr.total_volume,
-    //       marketCap: curr.market_cap,
-    //       circulatingSupply: curr.circulating_supply,
-    //     },
-    //   ];
-    // });
+    dispatch<FetchPricesDataAction>({
+      type: ActionType.FETCH_PRICES_DATA,
+      payload: response.data,
+    });
+  };
+};
 
-    dispatch<FetchCryptoInfoAction>({
-      type: ActionType.FETCH_CRYPTO_INFO,
+export const fetchLineChartData = (id: string) => {
+  return async (dispatch: Dispatch) => {
+    const response = await axios.post<LineChartData>(LINE_CHART_DATA, {
+      data: { id },
+    });
+
+    dispatch<FetchLineChartDataAction>({
+      type: ActionType.FETCH_LINECHART_DATA,
       payload: response.data,
     });
   };

@@ -1,6 +1,7 @@
 import { ActionType } from "../action-types";
 
-export interface CryptoInfo {
+export interface PricesData {
+  id: string;
   image: string;
   market_cap_rank: number;
   name: string;
@@ -14,9 +15,18 @@ export interface CryptoInfo {
   sparklineSevenDays: { [price: string]: number[] };
 }
 
-export interface FetchCryptoInfoAction {
-  type: ActionType.FETCH_CRYPTO_INFO;
-  payload: CryptoInfo[];
+export interface LineChartData {
+  prices: number[][];
 }
 
-export type Action = FetchCryptoInfoAction;
+export interface FetchPricesDataAction {
+  type: ActionType.FETCH_PRICES_DATA;
+  payload: PricesData[];
+}
+
+export interface FetchLineChartDataAction {
+  type: ActionType.FETCH_LINECHART_DATA;
+  payload: LineChartData;
+}
+
+export type Action = FetchPricesDataAction | FetchLineChartDataAction;

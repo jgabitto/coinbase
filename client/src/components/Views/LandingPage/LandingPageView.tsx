@@ -6,31 +6,33 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import Main from "../../common/Main";
 import { StoreState } from "../../../state/reducers";
-import Jumbotron from "./Jumbotron";
-import EnhancedTable from "../../Table";
-import { fetchCryptoInfo } from "../../../state/action-creators";
-import { CryptoInfo } from "../../../state/actions";
+import Jumbotron from "../../Jumbotron/Jumbotron";
+import EnhancedTable from "../../Table/Table";
+import { fetchPricesData } from "../../../state/action-creators";
+import { PricesData, LineChartData } from "../../../state/actions";
 
 interface TableProps {
-  cryptoInfo: CryptoInfo[];
-  fetchCryptoInfo: Function;
+  pricesData: PricesData[];
+  fetchPricesData: Function;
+  lineChartData: LineChartData;
 }
 
 const LandingPageView: React.FC<TableProps> = ({
-  fetchCryptoInfo,
-  cryptoInfo,
+  fetchPricesData,
+  pricesData,
+  lineChartData,
 }): JSX.Element => {
   useEffect(() => {
-    fetchCryptoInfo();
-  }, [fetchCryptoInfo]);
+    fetchPricesData();
+  }, [fetchPricesData]);
 
-  console.log(cryptoInfo);
+  console.log(pricesData);
 
   return (
     <Box sx={{ overflowX: "hidden" }}>
       <Main bgcolor={"background.paper"}>
         <Jumbotron />
-        {cryptoInfo.length === 0 ? (
+        {pricesData.length === 0 && lineChartData ? (
           <Grid
             container
             spacing={0}
@@ -44,7 +46,7 @@ const LandingPageView: React.FC<TableProps> = ({
             </Grid>
           </Grid>
         ) : (
-          <EnhancedTable data={cryptoInfo} />
+          <EnhancedTable data={pricesData} />
         )}
       </Main>
     </Box>
@@ -52,9 +54,12 @@ const LandingPageView: React.FC<TableProps> = ({
 };
 
 const mapStateToProps = ({
-  cryptoInfo,
-}: StoreState): { cryptoInfo: CryptoInfo[] } => {
-  return { cryptoInfo };
+  pricesData,
+  lineChartData,
+}: StoreState): { pricesData: PricesData[]; lineChartData: LineChartData } => {
+  return { pricesData, lineChartData };
 };
 
-export default connect(mapStateToProps, { fetchCryptoInfo })(LandingPageView);
+export default connect(mapStateToProps, {
+  fetchPricesData,
+})(LandingPageView);

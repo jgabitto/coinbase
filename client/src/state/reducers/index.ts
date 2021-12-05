@@ -1,11 +1,14 @@
 import { combineReducers } from "redux";
-import cryptoInfoReducer from "./cyptroInfoReducer";
-import { CryptoInfo } from "../actions";
+import pricesDataReducer from "./pricesDataReducer";
+import lineChartDataReducer from "./lineChartDataReducer";
+import { PricesData, LineChartData } from "../actions";
 
 export interface StoreState {
-  cryptoInfo: CryptoInfo[];
+  pricesData: PricesData[];
+  lineChartData: LineChartData;
 }
 
 export const reducers = combineReducers<StoreState>({
-  cryptoInfo: cryptoInfoReducer,
+  pricesData: pricesDataReducer,
+  lineChartData: lineChartDataReducer,
 });

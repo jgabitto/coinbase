@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import { alpha } from "@mui/material/styles";
+import { connect } from "react-redux";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -21,57 +22,18 @@ import { visuallyHidden } from "@mui/utils";
 import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
 import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
 
-import Container from "./common/Container";
-import { CryptoInfo } from "../state/actions";
+import Container from "../common/Container";
+import PriceChartModal from "../PriceChartModal/PriceChartModal";
+import { PricesData, LineChartData } from "../../state/actions";
+import { fetchLineChartData } from "../../state/action-creators";
+import { ChartColors } from "../Chart/styles/index";
+import CoinChart from "../Chart/CoinChart/CoinChart";
+import { StoreState } from "../../state/reducers";
 
-// interface Data {
-//   num?: number;
-//   name?: string;
-//   oneHPercentage?: number;
-//   twentyfourHPercentage?: number;
-//   sevenDPercentage?: number;
-//   twentyfourHVolume?: number;
-//   marketCap?: number;
-//   circulatingSupply?: number;
-// }
-
-// function createData(
-//   num?: number,
-//   name?: string,
-//   oneHPercentage?: number,
-//   twentyfourHPercentage?: number,
-//   sevenDPercentage?: number,
-//   twentyfourHVolume?: number,
-//   marketCap?: number,
-//   circulatingSupply?: number
-// ): Data {
-//   return {
-//     num,
-//     name,
-//     oneHPercentage,
-//     twentyfourHPercentage,
-//     sevenDPercentage,
-//     twentyfourHVolume,
-//     marketCap,
-//     circulatingSupply,
-//   };
-// }
-
-// const rows = [
-//   createData(1, "Cupcake", 305, 3.7, 67, 1, 1, 2, 1),
-//   createData(2, "Donut", 452, 25.0, 51, 2, 1, 2, 1),
-//   createData(3, "Eclair", 262, 16.0, 24, 3, 1, 2, 1),
-//   createData(4, "Frozen yoghurt", 159, 6.0, 24, 4, 1, 2, 1),
-//   createData(5, "Gingerbread", 356, 16.0, 49, 5, 1, 2, 1),
-//   createData(6, "Honeycomb", 408, 3.2, 87, 5, 1, 2, 1),
-//   createData(7, "Ice cream sandwich", 237, 9.0, 37, 5, 1, 2, 1),
-//   createData(8, "Jelly Bean", 375, 0.0, 94, 5, 1, 2, 1),
-//   createData(9, "KitKat", 518, 26.0, 65, 5, 1, 2, 1),
-//   createData(10, "Lollipop", 392, 0.2, 98, 5, 1, 2, 1),
-//   createData(11, "Marshmallow", 318, 0, 81, 5, 1, 2, 1),
-//   createData(12, "Nougat", 360, 19.0, 9, 5, 1, 2, 1),
-//   createData(13, "Oreo", 437, 18.0, 63, 5, 1, 2, 1),
-// ];
+const CHART_BOX_SIZE = {
+  height: 40,
+  width: 150,
+};
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -113,7 +75,7 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof CryptoInfo;
+  id: keyof PricesData;
   label: string;
   numeric: boolean;
 }
@@ -167,13 +129,19 @@ const headCells: readonly HeadCell[] = [
     disablePadding: false,
     label: "Circulating Supply",
   },
+  {
+    id: "sparklineSevenDays",
+    numeric: false,
+    disablePadding: false,
+    label: "Line Chart",
+  },
 ];
 
 interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof CryptoInfo
+    property: keyof PricesData
   ) => void;
   // onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -189,7 +157,7 @@ function EnhancedTableHead({
   onRequestSort,
 }: /* onSelectAllClick*/ EnhancedTableProps) {
   const createSortHandler =
-    (property: keyof CryptoInfo) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof PricesData) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
@@ -282,6 +250,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 
 interface TableProps {
   data: any;
+  fetchLineChartData: Function;
+  lineChartData: LineChartData;
 }
 
 const useStyles = makeStyles({
@@ -292,20 +262,32 @@ const useStyles = makeStyles({
   },
 });
 
-const EnhancedTable: React.FC<TableProps> = ({ data }): JSX.Element => {
+const EnhancedTable: React.FC<TableProps> = ({
+  data,
+  fetchLineChartData,
+  lineChartData,
+}): JSX.Element => {
   const [order, setOrder] = useState<Order>("asc");
-  const [orderBy, setOrderBy] = useState<keyof CryptoInfo>("market_cap_rank");
+  const [orderBy, setOrderBy] = useState<keyof PricesData>("market_cap_rank");
   const [selected, setSelected] = useState<string>("");
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(25);
-  // const [rows, setRows] = useState<CryptoInfo[]>(data);
+  const [open, setOpen] = React.useState(false);
+  const [selectedRow, setSelectedRow] = React.useState<any>();
 
-  const classes = useStyles();
+  const handleClickOpen = (event: React.MouseEvent<unknown>, row: any) => {
+    setSelectedRow(row);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof CryptoInfo
+    property: keyof PricesData
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -338,9 +320,6 @@ const EnhancedTable: React.FC<TableProps> = ({ data }): JSX.Element => {
     //     selected.slice(selectedIndex + 1)
     //   );
     // }
-
-    console.log(name);
-    console.log(selected);
 
     setSelected(name);
   };
@@ -393,6 +372,7 @@ const EnhancedTable: React.FC<TableProps> = ({ data }): JSX.Element => {
                 {stableSort(data, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
+                    const id = typeof row.id === "string" ? row.id : "bitcoin";
                     const name = typeof row.name === "string" ? row.name : "";
                     const oneH =
                       typeof row.price_change_percentage_1h_in_currency ===
@@ -429,7 +409,8 @@ const EnhancedTable: React.FC<TableProps> = ({ data }): JSX.Element => {
                     return (
                       <TableRow
                         hover
-                        onClick={(event) => handleClick(event, name)}
+                        onClick={(event) => handleClickOpen(event, row)}
+                        // onClick={(event) => handleClick(event, name)}
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
@@ -502,6 +483,18 @@ const EnhancedTable: React.FC<TableProps> = ({ data }): JSX.Element => {
                         <TableCell align="right">
                           {supply.toLocaleString()}
                         </TableCell>
+                        <TableCell align="right">
+                          <CoinChart
+                            height={CHART_BOX_SIZE.height}
+                            width={CHART_BOX_SIZE.width}
+                            color={
+                              Math.sign(sevenD) >= 0
+                                ? ChartColors.green
+                                : ChartColors.red
+                            }
+                            id={id}
+                          />
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -531,8 +524,29 @@ const EnhancedTable: React.FC<TableProps> = ({ data }): JSX.Element => {
           label="Dense padding"
         />
       </Box>
+      {selectedRow && (
+        <PriceChartModal
+          open={open}
+          handleClose={handleClose}
+          setOpen={setOpen}
+          row={selectedRow}
+          chartDimensions={CHART_BOX_SIZE}
+          data={selectedRow.price_change_percentage_7d_in_currency}
+          id={selectedRow.id}
+        />
+      )}
     </Container>
   );
 };
 
-export default EnhancedTable;
+// export default EnhancedTable;
+
+const mapStateToProps = ({
+  lineChartData,
+}: StoreState): { lineChartData: LineChartData } => {
+  return { lineChartData };
+};
+
+export default connect(mapStateToProps, {
+  fetchLineChartData,
+})(EnhancedTable);
