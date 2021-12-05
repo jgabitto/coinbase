@@ -40,6 +40,11 @@ These were some of the facets I wanted to incorporate into this app as they woul
 
 This was a fun project and there are a lot of features I would like to add in the future!
 
+Views
+
+-[Jumbotron](https://drive.google.com/file/d/1xhT2oKpNj0IFJgvEVPkJOLjMuXc8wAFr/view?usp=sharing)
+-[Prices Table](https://drive.google.com/file/d/1dESC01NkNhC5Ju-81TNiRPpd7DnNewW-/view?usp=sharing)
+
 ### Deployed
 
 [Deployed Version](https://cryptoinfoweb.herokuapp.com/)
