@@ -9,6 +9,12 @@ import Paper, { PaperProps } from "@mui/material/Paper";
 import Draggable from "react-draggable";
 
 import { ChartColors } from "../Chart/styles";
+import CoinChart from "../Chart/CoinChart/CoinChart";
+
+const CHART_BOX_SIZE = {
+  height: 200,
+  width: 350,
+};
 
 interface ModalProps {
   open: boolean;
@@ -56,6 +62,12 @@ const PriceChartModal: React.FC<ModalProps> = ({
             To subscribe to this website, please enter your email address here.
             We will send updates occasionally.
           </DialogContentText> */}
+          {/* <CoinChart
+            height={CHART_BOX_SIZE.height}
+            width={CHART_BOX_SIZE.width}
+            color={Math.sign(sevenD) >= 0 ? ChartColors.green : ChartColors.red}
+            id={"bitcoin"}
+          /> */}
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
