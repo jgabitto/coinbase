@@ -15,7 +15,7 @@ import Switch from "@mui/material/Switch";
 import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
 import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
 
-import Container from "../common/Container";
+import Container from "../shared/Container";
 import PriceChartModal from "../PriceChartModal/PriceChartModal";
 import { PricesData, LineChartData } from "../../state/actions";
 import { fetchLineChartData } from "../../state/action-creators";

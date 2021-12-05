@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import Main from "../../common/Main";
+import Main from "../../shared/Main";
 import { StoreState } from "../../../state/reducers";
 import Jumbotron from "../../Jumbotron/Jumbotron";
 import EnhancedTable from "../../Table/Table";

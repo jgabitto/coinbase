@@ -12,30 +12,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.router = void 0;
-const express_1 = require("express");
-const axios_1 = __importDefault(require("axios"));
-const utils_1 = require("./utils");
-const router = (0, express_1.Router)();
-exports.router = router;
-// GET get prices data information
-router.get("/get-prices-data", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.auth = void 0;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const mongoose_1 = require("mongoose");
+const user_1 = require("../models/user");
+const secret = process.env.JWT_SECRET;
+const auth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield axios_1.default.get(utils_1.GET_PRICES_DATA_URL);
-        res.status(200).send(response.data);
+        const secret = process.env.JWT_SECRET || "too bad";
+        const token = req.cookies["auth_token"];
+        if (!token) {
+            throw new mongoose_1.Error("Unauthenticated token");
+        }
+        const decoded = jsonwebtoken_1.default.verify(token, secret);
+        const user = yield user_1.User.findOne({ _id: decoded._id });
+        if (!user) {
+            throw new mongoose_1.Error("Not registered user");
+        }
+        req.user = user;
+        req.token = token;
+        next();
     }
     catch (e) {
-        console.log(e);
+        console.log(e.message);
+        return res.sendStatus(500);
     }
-}));
-// POST get line chart information
-router.post("/get-line-chart-data", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const url = (0, utils_1.getLineChartDataUrl)(req.body.data.id);
-        const response = yield axios_1.default.get(url);
-        res.status(200).send(response.data);
-    }
-    catch (e) {
-        console.log(e);
-    }
-}));
+});
+exports.auth = auth;

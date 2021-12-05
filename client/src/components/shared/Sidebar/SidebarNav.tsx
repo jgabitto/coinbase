@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
 import NavItem from "../Navbar/NavItem";
-import { PageItem } from "../../interfaces/interfaces";
+import { PageItem } from "../interfaces/interfaces";
 
 interface Props {
   pages: {

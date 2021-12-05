@@ -1,7 +1,8 @@
 import { Request, Response, Router } from "express";
 import axios from "axios";
 
-import { GET_PRICES_DATA_URL, getLineChartDataUrl } from "./routes";
+import { getLineChartDataUrl } from "./utils";
+import { GET_PRICES_DATA_URL } from "./constants";
 
 const router = Router();
 

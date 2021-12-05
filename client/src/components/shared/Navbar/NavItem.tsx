@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import { PageItem } from "../../interfaces/interfaces";
+import { PageItem } from "../interfaces/interfaces";
 
 interface Props {
   title: string;

@@ -5,7 +5,7 @@ import { alpha, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import NavItem from "./NavItem";
-import { PageItem } from "../../interfaces/interfaces";
+import { PageItem } from "../interfaces/interfaces";
 
 interface Props {
   onSidebarOpen: () => void;

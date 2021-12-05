@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import "aos/dist/aos.css";
 
-import Page from "./common/Page";
+import Page from "./shared/Page";
 import Routes from "./Routes/Routes";
 
 const App: React.FC = () => {
