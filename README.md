@@ -65,7 +65,7 @@ To get a local copy up and running follow these simple example steps.
 
 - I used a MVC architecture in conjunction with a React-Redux store on the frontend. I have a views folder that acts as the views, a state folder that acts as the model, and the Controllers are specific components. I also have utilised a MVC architecture for the backend. I've included diagrams below:
 
-- ![Redux store](https://drive.google.com/file/d/1yat5IKfYURjii-0RqduwwavplyMi-GMB/view?usp=sharing)
+- [Redux Store](https://drive.google.com/file/d/1yat5IKfYURjii-0RqduwwavplyMi-GMB/view?usp=sharing)
 
 ### Prerequisites
 
