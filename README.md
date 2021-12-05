@@ -7,6 +7,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#deployed">Deployed</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
@@ -38,6 +39,10 @@ The different functionalities of Cryptoinfoweb:
 These were some of the facets I wanted to incorporate into this app as they would mimic some of the major features of popular cyprocurrency apps like Coinbase. 
 
 This was a fun project and there are a lot of features I would like to add in the future!
+
+### Deployed
+
+[Deployed Version](https://cryptoinfoweb.herokuapp.com/)
 
 ### Built With
 
