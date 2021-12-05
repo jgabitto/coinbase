@@ -78,19 +78,19 @@ List of things you need to run Cryptoinfoweb locally
    ```sh
    npm install
    ```
-      4. Run client server
+   4. Run client server
    ```sh
    npm start
    ```
  4. CD to Server
    ```sh
    cd ../server
-   
+   ```
    5. Install NPM packages for server
    ```sh
    npm install
    ```
-         6. Run server server
+   6. Run server server
    ```sh
    npm start
    ```
