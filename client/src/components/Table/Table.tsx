@@ -296,7 +296,7 @@ const EnhancedTable: React.FC<TableProps> = ({
         </Paper>
         <FormControlLabel
           control={<Switch checked={dense} onChange={handleChangeDense} />}
-          label="Dense padding"
+          label="Tighter Rows"
         />
       </Box>
       {selectedRow && (

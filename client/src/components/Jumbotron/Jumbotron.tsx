@@ -5,8 +5,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha, useTheme } from "@mui/material/styles";
+import { Card } from "@mui/material";
+import CardContent from "@mui/material/CardContent";
 
 import Container from "../shared/Container";
+import Background from "../theme/assets/background.png";
 
 const typedStrings = ["BTC", "ETH", "BNB", "DOGE", "SHIB", "CRO"];
 
@@ -19,12 +22,9 @@ const Jumbotron = (): JSX.Element => {
   return (
     <Box
       sx={{
-        backgroundImage: `linear-gradient(to bottom, ${alpha(
-          theme.palette.background.paper,
-          0
-        )}, ${alpha(theme.palette.alternate.main, 1)} 100%)`,
-        backgroundRepeat: "repeat-x",
-        position: "relative",
+        backgroundImage: "url(" + Background + ")",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
       }}
     >
       <Box paddingY={{ xs: 0, sm: "4rem", md: "8rem" }}>
@@ -38,16 +38,16 @@ const Jumbotron = (): JSX.Element => {
                 fontWeight: 700,
               }}
             >
-              Check the prices
+              Get the information you need
               <br />
-              on{" "}
+              about{" "}
               <Typography
                 color={"primary"}
                 component={"span"}
                 variant={"inherit"}
                 sx={{
                   background: `linear-gradient(180deg, transparent 82%, ${alpha(
-                    theme.palette.secondary.main,
+                    theme.palette.primary.main,
                     0.3
                   )} 0%)`,
                 }}
@@ -58,11 +58,10 @@ const Jumbotron = (): JSX.Element => {
             <Typography
               variant="h6"
               component="p"
-              color="text.secondary"
+              color="text.primary"
               sx={{ fontWeight: 400 }}
             >
-              Get the information you need to start investing or managing your
-              investments today.
+              Start investing or managing your investments today.
             </Typography>
             <Box
               display="flex"
@@ -78,29 +77,88 @@ const Jumbotron = (): JSX.Element => {
                 fullWidth={isMd ? false : true}
                 href={"/home"}
               >
-                View prices
+                View Our Currency Table
               </Button>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection={{ xs: "column", sm: "row" }}
+              alignItems={{ xs: "stretched", sm: "flex-start" }}
+              marginTop={4}
+            >
+              <Card
+                sx={{
+                  minWidth: 200,
+                  backgroundColor: "transparent",
+                  boxShadow: "0",
+                  marginRight: 4,
+                }}
+              >
+                <CardContent>
+                  <Typography
+                    sx={{ fontSize: 20, fontWeight: "bold" }}
+                    color="text.primary"
+                    gutterBottom
+                  >
+                    BITCOIN
+                  </Typography>
+                  <Typography variant="h5" component="div"></Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.primary">
+                    29822.29$
+                  </Typography>
+                </CardContent>
+              </Card>
+              <Card
+                sx={{
+                  minWidth: 200,
+                  backgroundColor: "transparent",
+                  boxShadow: "0",
+                  marginRight: 4,
+                }}
+              >
+                <CardContent>
+                  <Typography
+                    sx={{ fontSize: 20, fontWeight: "bold" }}
+                    color="text.primary"
+                    gutterBottom
+                  >
+                    ETHERIUM
+                  </Typography>
+                  <Typography variant="h5" component="div"></Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.primary">
+                    29822.29$
+                  </Typography>
+                </CardContent>
+              </Card>
+              <Card
+                sx={{
+                  minWidth: 200,
+                  backgroundColor: "transparent",
+                  boxShadow: "0",
+                  marginRight: 4,
+                }}
+              >
+                <CardContent>
+                  <Typography
+                    sx={{ fontSize: 20, fontWeight: "bold" }}
+                    color="text.primary"
+                    gutterBottom
+                  >
+                    DODGE
+                  </Typography>
+                  <Typography variant="h5" component="div"></Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.primary">
+                    29822.29$
+                  </Typography>
+                </CardContent>
+              </Card>
             </Box>
           </Box>
         </Container>
       </Box>
-      <Box
-        component={"svg"}
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
-        x="0px"
-        y="0px"
-        viewBox="0 0 1920 100.1"
-        sx={{
-          width: "100%",
-          marginBottom: theme.spacing(-1),
-        }}
-      >
-        <path
-          fill={theme.palette.background.paper}
-          d="M0,0c0,0,934.4,93.4,1920,0v100.1H0L0,0z"
-        ></path>
-      </Box>
+      <Typography variant="h3" align="center">
+        Market trend
+      </Typography>
     </Box>
   );
 };
