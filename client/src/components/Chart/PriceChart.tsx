@@ -12,9 +12,7 @@ const PrimaryChart: React.FC<PriceChartProps> = ({
 
   return (
     <div style={{ position: "relative", margin: "0 0 1rem" }}>
-      <svg width={width} height={height}>
-        {/* we will include line chart, and tooltip */}
-      </svg>
+      <svg width={width} height={height}></svg>
     </div>
   );
 };
