@@ -32,9 +32,11 @@ A cryptocurrency website where you can find the latest information (Market cap, 
 
 The different functionalities of Cryptoinfoweb:
 
-- View latest price information about global cryptocurrencies.
+- View latest price information from Coingecko API about global cryptocurrencies.
 - Create an account and favorite your preferred cryptocurrencies.
 - Learn about blockchain and cryptocurrencies
+- Usage of Material UI Components such as Topbar, Hero, Table, Footer, Grid, Box, et
+- Use of reusable components such as some of the Chart Components
 
 These were some of the facets I wanted to incorporate into this app as they would mimic some of the major features of popular cyprocurrency apps like Coinbase. 
 
