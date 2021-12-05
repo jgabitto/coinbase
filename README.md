@@ -69,11 +69,11 @@ List of things you need to run Cryptoinfoweb locally
 1. Clone the repo
    ```sh
    git clone https://github.com/jgabitto/coinbase.git
-   
+   ```
  2. CD Client
    ```sh
    cd client
-   
+   ```
    3. Install NPM packages for client
    ```sh
    npm install
