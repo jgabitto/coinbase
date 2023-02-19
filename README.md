@@ -123,5 +123,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
 
 Jorge G.
-
-Project Link: [RideShare](https://github.com/jgabitto/ctd_final_project_frontend#about-the-project)
